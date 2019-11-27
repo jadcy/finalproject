@@ -14,7 +14,6 @@ window.onload = function() {
 	else if (Notification.permission !== 'denied') {
 	  Notification.requestPermission(function (permission) {
 	    // If the user accepts, let's create a notification
-
 	  });
 	}
 	if(sessionStorage.getItem("log")!=null){
@@ -23,10 +22,11 @@ window.onload = function() {
 			sessionStorage.removeItem("log");
 		}
 		document.getElementById("profile").style.display = "block";
-		document.getElementById("welcome").innerHTML = "WELCOME! " + sessionStorage.getItem("log");
+		document.getElementById("welcome").innerHTML = "Welcome " + sessionStorage.getItem("log");
 		document.getElementById("image").innerHTML = sessionStorage.getItem("log") + "'s Profile";
-		document.getElementById("favbill").innerHTML = sessionStorage.getItem("log") + "'s Following Bills";
-		document.getElementById("friends").innerHTML = sessionStorage.getItem("log") + "'s Friends";
+		document.getElementById("initials").innerHTML = sessionStorage.getItem("log").substring(0,2).toLocaleUpperCase();
+		document.getElementById("favbill").innerHTML = "Following Bills";
+		document.getElementById("friends").innerHTML = "Friends";
 	 	
 		//setInterval(checkRequest, 1000);
 	//do something to change based on login
@@ -62,6 +62,8 @@ function toggle(x){
 <style>
 .fa {
   font-size: 50px;
+  border: 2px solid;
+  padding: 3px;
   cursor: pointer;
   user-select: none;
 }
@@ -79,6 +81,16 @@ function toggle(x){
 }
 #search{
 	float:left;
+}
+.circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  font-size: 80px;
+  color: #fff;
+  line-height: 200px;
+  text-align: center;
+  background: #000
 }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -110,9 +122,9 @@ function toggle(x){
 </nav>
 <br>
 	<div class="container">	
-		<div class="row">
-			<img id="profile" src = "image/ken.jpg" style= "width: 20%;"class="rounded-circle">
-			<h1 id = "image" class="col-12 mt-4 mb-4"></h1>
+		<div class="row" style="padding-left: 10%">
+			<div class="circle" id="initials"></div>
+			<h1 id="image" style="padding-left:10%; padding-top: 9%"></h1>
 		</div> 
 	</div> 
 	<br>
@@ -120,18 +132,24 @@ function toggle(x){
 	<div class="container" >
 	
 		<div class="row">
-		<div class="col-12 col-md-6" style="border:dashed; padding:15px; width: 33%;">
-			<h2 id="favbill" style ="color: green;"></h2>
-				<table id="favBills"></table>
-		</div>	
-		<div class="col-12 col-md-5" style="border:dashed; padding:15px; width: 33%;">
-			<h2 id="friends"style ="color: green;"></h2>
-				<table id="friendsTable"></table>						
-		</div>
-		<div class="col-12 col-md-6" style="border:dashed; padding:15px; width: 33%;">
-			<table id="requestsTable"></table>
-		</div>	
-		</div> <!-- .row -->
+		
+			<div class="col-12 col-md-6" style="border-right: 6px solid; padding:15px; width: 33%;">
+				<h2 id="favbill" style="text-align: center;"></h2>
+					<table id="favBills"></table>
+			</div>	
+			<div class="col-12 col-md-5" style="border-bottom: 6px solid; padding:15px; width: 33%;">
+				<h2 id="friends" style="text-align: center;"></h2>
+					<table id="friendsTable"></table>						
+			</div>
+			
+			<br><br>
+			
+			<div class="col-12 col-md-5" style="padding-left: 5%; border-top: 6px solid; padding:15px; width: 33%;">
+				<h2 style="text-align: center;">Requests</h2>
+					<table id="requestsTable"></table>						
+			</div>
+	
+		</div> 
 	</div> 
 </body>
 <script>
@@ -153,7 +171,7 @@ if(xhttp.responseText.length > 0) {
 		let button =document.createElement("i");
 		button.setAttribute("class", "fa fa-star");
 		button.style.fontSize = "24px";
-		button.style.color = "blue";
+		button.style.color = "yellow";
 		buttonWrapper.appendChild(button);
 		let billtitle = document.createElement("p");
 		billtitle.innerHTML = billresult.results[0].title;
@@ -176,6 +194,7 @@ if(xhttp.responseText.length > 0) {
 		let buttonWrapper = document.createElement("td");
 		let button = document.createElement("i");
 		button.setAttribute("class", "fa fa-close");
+		button.innerHTML = "<h6 style='font-family: arial;'>Delete</h6>";
 		button.style.fontSize = "24px";
 		button.value = friendresults[i];
 		button.onclick = function() {
@@ -211,6 +230,7 @@ if(xhttp.responseText.length > 0) {
 		let check = document.createElement("i");
 		check.value = requestresults[i];
 		check.setAttribute("class", "fa fa-check");
+		check.innerHTML = "<h6 style='font-family: arial;'>Accept</h6>";
 		check.style.fontSize = "24px";
 		check.onclick = function() {
 			alert(this.value + " is now your friend!");
@@ -225,6 +245,7 @@ if(xhttp.responseText.length > 0) {
 		let close = document.createElement("i");
 		close.value = requestresults[i];
 		close.setAttribute("class", "fa fa-close");
+		close.innerHTML = "<h6 style='font-family: arial;'>Reject</h6>";
 		close.style.fontSize = "24px";
 		close.onclick = function() {
 			alert("You deleted " + this.value + "'s friend request!");
