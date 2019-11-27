@@ -74,7 +74,6 @@ function selectCheck() {
 body {
    
 }
-
 #results{
   margin-left: 10%;
   margin-right: 10%;
@@ -83,7 +82,6 @@ body {
 .navbar-bccolor{
 	background-color: #2F4F4F;
 }
-
 #search{
 float:left;
 }
@@ -121,7 +119,7 @@ String message = (String) session.getAttribute ("username");
 	      		</li>
 	    	</ul>
 	    	
-<h2 id = "welcome" style= "color: white;">Welcome <%= message %>!</h2>
+<h2 id = "welcome" style= "color: white;"></h2>
 	    
 	 </div>
 </nav>
@@ -334,6 +332,9 @@ String message = (String) session.getAttribute ("username");
 		   document.getElementById("search").setAttribute("placeholder", "Search Users with First Name or Last Name");
 	   }
 	}
-	
+	if(sessionStorage.getItem("log")== null){
+		sessionStorage.setItem("log")=="";
+	}
+	document.getElementById("welcome").innerHTML = "Welcome " + sessionStorage.getItem("log");
 </script>
 </html>
