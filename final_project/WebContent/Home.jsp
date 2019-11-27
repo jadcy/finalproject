@@ -64,9 +64,10 @@ function checkRequest() {
 </script>
 <style>
 body {
-background-image : url("image/background.jpg");
-background-size: cover; 
-   
+background-image : linear-gradient(#AEECEF, #6D9DC5);
+/* background-size: cover;  */
+background-repeat:repeat-y;
+ 
 }
 .breadcrumb{
 background-color: white;
@@ -76,7 +77,6 @@ width:620px;
 }
 .container{
 height: 10em;
-padding-top:20%;
   display: flex;
   
   align-items: center;
@@ -132,23 +132,23 @@ if(message == null || message == ""){
 	 
 	 <h2 id = "welcome" style= "color: white;"></h2>
 </nav>
-<div id="nameList"></div>
-<div id = "weather" style="font-size: 46px; color: 	#F0FFFF; text-align: center;padding-top:20px;">
+
+<div id = "weather" style="font-size: 17px; color: 	#5F5980; text-align: center;padding-top:20px;">
 		Today's weather in Los Angeles: <span id="realtemp"></span>° <span id="description"></span>. Feels like <span id = "feelslike"></span>°
 </div>
 
 <div class="container">
 		<div class="row">
 			<h1 class="col-12 mt-4"> <img src ="image/House.jpg"/></h1>
-		</div> <!-- .row -->	
+		</div> 
 </div>
 <br>
 <br>
 <br>
 <div class="d-flex justify-content-center">
 <form name="myform" method="POST" action="Servlet" onsubmit= "return selectCheck()">
-<input type="text" style = "width:600px; font-size:40px;margin-top: 20px; height:50px;" class="form-control" id="search" name="search" placeholder = "Search Bills">
-<select name="select" id="select" style= "width: 150px;margin-top: 20px;height: 50px;" onmouseout="return placeholder()" >
+<input type="text" style = "width:600px; font-size:40px; height:50px;" class="form-control" id="search" name="search" placeholder = "Search Bills">
+<select name="select" id="select" style= "width: 150px;height: 50px;" onmouseout="return placeholder()" >
     <option value="selectnon">--SELECT--</option>
     <option value="bills">Bill</option>
     <option value="users">User</option>
@@ -157,6 +157,10 @@ if(message == null || message == ""){
 <input type = "submit" style = "height:50px;"value = "Search" class="btn btn-primary">
 
 </form>
+</div>
+
+<div class="container" id = "news" style="padding-top:5%;font-size: 28px; color: #1F2232; text-align: center;">
+		<span>Today's breaking news: <span id="topnews"></span></span>
 </div>
 <script>
 //Using AJAX with jQuery
@@ -168,13 +172,6 @@ $.ajax({
 		units: "I"
 	}
 })
-//app_temp: Apparent/"Feels Like" temperature (default Celcius).
-//temp: Temperature (default Celcius).
-// //weather: {
-// icon:Weather icon code.
-// code:Weather code.
-// description: Text weather description.
-// }
 .done(function(results){
 
 	console.log(results);
@@ -188,18 +185,18 @@ $.ajax({
 				console.log("ERROR");
 	})
 
-
-
-.done(function(results){
-
-	console.log(results);
-	var names = 
-	$("#realtemp").text(results.data[0].temp);
-	$("#feelslike").text(results.data[0].app_temp);
-	$("#description").text(results.data[0].weather.description);
-
-
+$.ajax({
+	method: "GET",
+	url: 'https://newsapi.org/v2/top-headlines?' +
+	'country=us&' +
+	'apiKey=110d1f37d7e44a67adc114faf33b8bfc', 
+	success: function(result) {
+		document.getElementById("topnews").innerHTML = result.articles[0].title;
+	}
 })
+
+
+
 	
 function placeholder() {
    if(document.myform.select.value == "bills"){
@@ -222,5 +219,10 @@ if(sessionStorage.getItem("log")== null){
 document.getElementById("welcome").innerHTML = "Welcome! " + sessionStorage.getItem("log");
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<div class = "col-sm-12 footer">
+	<p class = "footer">© 2019 Find My Bills, Inc. By 201 Trojans<br><br></p>
+</div>
+
 </body>
 </html>
